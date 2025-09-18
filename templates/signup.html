@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetus Growth Detection - Sign Up</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f4f4f4; font-family: Arial, sans-serif; }
+        .title { text-align: center; font-size: 24px; font-weight: bold; color: #333; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(to right, #007BFF, #28A745); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .flash-message { width: 100%; max-width: 400px; text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; padding: 10px; border-radius: 5px; display: none; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .container { display: flex; width: 100%; max-width: 1200px; height: 80%; align-items: stretch; gap: 0; }
+        .left-half { width: 50%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; background: white; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); padding: 40px; border-radius: 10px; height: 100%; }
+        .left-half .small-title { font-size: 18px; font-weight: bold; color: #007BFF; margin-bottom: 10px; text-transform: uppercase; }
+        .left-half h2 { font-size: 22px; color: #333; }
+        .left-half form { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+        .left-half input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        .button-group { display: flex; gap: 10px; }
+        .left-half button { flex: 1; padding: 12px; font-size: 16px; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .submit-btn { background: #007BFF; }
+        .submit-btn:hover { background: #0056b3; }
+        .login-btn { background: #28A745; text-align: center; text-decoration: none; padding: 12px 20px; border-radius: 5px; color: white; display: inline-block; }
+        .login-btn:hover { background: #1e7e34; }
+        .right-half { width: 50%; display: flex; justify-content: center; align-items: center; height: 100%; background: white; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); border-radius: 10px; }
+        .right-half img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="title">Amniotic Fluid & Fetus Growth Detection</div>
+
+    <div id="flash-message" class="flash-message"></div>
+
+    <div class="container">
+        <div class="left-half">
+            <div class="small-title">Sign Up</div>
+            <h2>Create an Account</h2>
+            <form id="signupForm">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Sign Up</button>
+                    <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+                </div>                    
+            </form>
+        </div>
+        <div class="right-half">
+            <img src="{{ url_for('static', filename='p1.jpg') }}" alt="Fetus Growth Detection">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            fetch('/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, username, password })
+            }).then(response => response.json()).then(data => {
+                alert(data.message);
+                if (data.success) window.location.href = "/login";
+            });
+        });
+    </script>
+
+</body>
+</html>
